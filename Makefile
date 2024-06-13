@@ -1,9 +1,15 @@
 NAME			= philo	
 
+RUN             = run
+
 SRC				= main.c init.c utils.c routine.c checker.c end_clean.c print.c	\
 				utils2.c
 
-OBJS			=	${SRC:.c=.o}
+BONUS           = 
+
+OBJS			= ${SRC:.c=.o}
+
+BONUS_OBJS      = $(BONUS:.c=.o)
 
 CC				=	cc
 
@@ -29,11 +35,20 @@ $(NAME)			:	${OBJS}
 ##		--show-leak-kinds=all ./${NAME}
 
 clean			:
-	@rm -rf ${OBJS}
+	@rm -rf ${OBJS} $(BONUS_OBJS)
 
 fclean			:	clean
 	@rm -rf ${NAME}
 
 re				:	fclean all
 
+bonus				: $(OBJS) $(BONUS_OBJS)
+	ar rc $(NAME) $(BONUS) $(BONUS_OBJS)    
+
 .PHONY			:	all clean fclean re 
+
+run: $(OBJS) $(BONUS_OBJS)
+	clear && $(CC) $(CFLAGS) -I $(HEADER) main.c $^ -o $(RUN)
+
+ffclean: fclean
+	rm -rf $(RUN)

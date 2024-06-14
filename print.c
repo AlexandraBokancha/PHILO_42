@@ -6,7 +6,7 @@
 /*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:49:19 by albokanc          #+#    #+#             */
-/*   Updated: 2024/05/09 15:00:03 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:00:16 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->m_print);
 		return ;
 	}
-	printf("%ld %i is eating\n", get_time(philo->data), philo->philo_nb);
+	printf("\033[0;34m%ld %i is eating\033[0m\n", get_time(philo->data), philo->philo_nb);
 	pthread_mutex_unlock(&philo->data->m_print);
 }
 
@@ -44,7 +44,7 @@ void	print_sleep(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->m_print);
 		return ;
 	}
-	printf("%ld %i is sleeping\n", get_time(philo->data), philo->philo_nb);
+	printf("\033[0;32m%ld %i is sleeping\033[0m\n", get_time(philo->data), philo->philo_nb);
 	pthread_mutex_unlock(&philo->data->m_print);
 }
 
@@ -61,7 +61,7 @@ void	print_think(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->m_print);
 		return ;
 	}
-	printf("%ld %i is thinking\n", get_time(philo->data), philo->philo_nb);
+	printf("\033[0;33m%ld %i is thinking\033[0m\n", get_time(philo->data), philo->philo_nb);
 	pthread_mutex_unlock(&philo->data->m_print);
 	if ((philo->philo_nb % 2)
 		&& (philo->data->time_to_eat >= philo->data->time_to_sleep))
@@ -71,6 +71,6 @@ void	print_think(t_philo *philo)
 void	print_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->m_print);
-	printf("%ld %i died\n", get_time(philo->data), philo->philo_nb);
+	printf("\033[0;31m%ld %i died\033[0m\n", get_time(philo->data), philo->philo_nb);
 	pthread_mutex_unlock(&philo->data->m_print);
 }

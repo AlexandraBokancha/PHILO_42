@@ -5,7 +5,12 @@ RUN             = run
 SRC				= main.c init.c utils.c routine.c checker.c end_clean.c print.c	\
 				utils2.c
 
-BONUS           = 
+BONUS_PATH      = philo_bonus/
+
+BONUS 			= utils.c \
+					$(addprefix $(BONUS_PATH), philo_b.c init_data_b.c init_philo_b.c \
+					utils_b.c utils2_b.c end_clean_b.c) \
+				
 
 OBJS			= ${SRC:.c=.o}
 
@@ -13,9 +18,11 @@ BONUS_OBJS      = $(BONUS:.c=.o)
 
 CC				=	cc
 
+BONUS_HEAD      = $(addprefix $(BONUS_PATH), philo_b.h)\
+
 HEAD 			= -Iphilo.h
 
-CFLAGS			= -Wall -Wextra -Werror -pthread -g3 -O2 -fsanitize=thread
+CFLAGS			= -Wall -Wextra -Werror -pthread -g3
 
 all				:	${NAME}
 
@@ -42,13 +49,14 @@ fclean			:	clean
 
 re				:	fclean all
 
-bonus				: $(OBJS) $(BONUS_OBJS)
-	ar rc $(NAME) $(BONUS) $(BONUS_OBJS)    
+bonus				: $(BONUS_OBJS)
+	@$(CC) $(CFLAGS) -I$(HEAD) -I$(BONUS_HEAD) $(BONUS_OBJS) -o $(NAME)
+	@echo "\nBONUS PHILO AT THE TABLE\n"   
 
-.PHONY			:	all clean fclean re 
+.PHONY			:	all clean fclean re bonus
 
-run: $(OBJS) $(BONUS_OBJS)
-	clear && $(CC) $(CFLAGS) -I $(HEADER) main.c $^ -o $(RUN)
+run: $(BONUS_OBJS)
+	clear && $(CC) $(CFLAGS) -I$(HEAD) -I$(BONUS_HEAD) $(BONUS_OBJS) $^ -o $(RUN)
 
 ffclean: fclean
 	rm -rf $(RUN)

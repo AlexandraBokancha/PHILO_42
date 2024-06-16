@@ -3,110 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   utils_b.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 16:49:34 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/14 17:08:03 by albokanc         ###   ########.fr       */
+/*   Created: 2024/06/15 17:18:13 by bokanchik         #+#    #+#             */
+/*   Updated: 2024/06/15 17:54:58 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_b.h"
 
-int	ft_strlen(char *str)
+long int	get_time_b(t_data_b *data)
 {
-	int i;
+	long int	ms;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	gettimeofday(data->tv, NULL);
+	ms = (data->tv->tv_sec * 1000 + data->tv->tv_usec / 1000) - data->t_start;
+	return (ms);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+void	start_b(t_data_b *data)
 {
-	char	*news;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if ((!s1) || (!s2))
-		return (NULL);
-	news = malloc(((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char)));
-	if (!news)
-		return (NULL);
-	while (s1[i])
-	{
-		news[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		news[i] = s2[j];
-		i++;
-		j++;
-	}
-	news[i] = '\0';
-	return (news);
+	gettimeofday(data->tv, NULL);
+	data->t_start = (data->tv->tv_sec * 1000) + (data->tv->tv_usec / 1000);
 }
 
-int	find_len_int(long int nbr)
-{
-	int	count;
-
-	count = 0;
-	if (nbr == 0)
-		return (1);
-	if (nbr < 0)
-	{	
-		nbr *= -1;
-		count += 1;
-	}
-	while (nbr > 0)
-	{	
-		nbr = nbr / 10;
-		count++;
-	}
-	return (count);
-}
-
-char	*putnbr(long int nbr, char *str, int len)
+int	ft_atoi_b(const char *nptr)
 {
 	int	i;
+	int	n;
+	int	sign;
 
 	i = 0;
-	if (nbr < 0)
+	n = 0;
+	sign = 1;
+	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == ' ')
+		i++;
+	if ((nptr[i] == '-') || nptr[i] == '+')
 	{	
-		nbr *= -1;
-		str[i] = '-';
+		if (nptr[i] == '-')
+			sign *= -1;
 		i++;
 	}
-	if (nbr < 10)
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		str[i] = nbr + '0';
-		return (str);
+		n = 10 * n + (nptr[i] - '0');
+		i++;
 	}
-	while (len > i)
-	{	
-		len--;
-		str[len] = nbr % 10 + '0';
-		nbr = nbr / 10;
-	}
-	return (str);
+	return (n * sign);
 }
 
-char	*ft_itoa(int n)
+int	is_digit_b(char **str)
 {
-	char		*str;
-	int			len;
-	long int	nbr;
+	int	i;
+	int	j;
 
-	nbr = n;
-	len = find_len_int(nbr);
-	str = malloc(sizeof(char) * len + 1);
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	str = putnbr(nbr, str, len);
-	return (str);
+	i = 1;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			if (str[i][j] >= '0' && str[i][j] <= '9')
+				j++;
+			else
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_usleep_b(t_data_b *data, size_t time)
+{
+	size_t	start;
+
+	start = get_time_b(data);
+	while ((get_time_b(data) - start) < time)
+		usleep(time * 100);
+	return (0);
 }

@@ -3,65 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   init_data_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:11:59 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/14 19:12:45 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/16 11:46:25 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_b.h"
 
-char	*set_sem_name(int i)
+// After the semaphore named name has been created by sem_open() 
+// with the O_CREAT flag, other processes can connect to the semaphore
+// by calling sem_open() with the same value of name.
+
+sem_t	*init_sem_fork(t_data_b *data)
 {
-	char *sem_num;
-	char *name;
 	
-	sem_num = ft_itoa(i + 1);
-	name = ft_strjoin("sem", sem_num);
-	free(sem_num);
-	return (name);
+	data->forks = malloc(sizeof(sem_t) * data->nb_of_philo);
+	if (!data->forks)
+		return (NULL);
+	data->forks = sem_open("/fork", O_CREAT, 0644, data->nb_of_philo);
+	if (data->forks == SEM_FAILED)
+	{
+		printf("sem_open() error\n");
+		exit (1);
+	}
+	return (data->forks);
 }
 
-t_sem_b *init_sem_b(t_data_b *data)
+sem_t *init_sem_lock(t_data_b *data)
 {
-	t_sem_b *sems;
-	int i;
-
-	i = 0;
-	sems = malloc(sizeof(t_sem_b));
-	if (!sems)
+	data->lock = malloc(sizeof(sem_t) * 2);
+	if (!data->lock)
 		return (NULL);
-	sems->sem_val = 1; 
-	sems->forks = malloc(sizeof(sem_t *) * data->nb_of_philo);
-	if (!sems->forks)
-		return (NULL);
-	sems->sem_name = malloc(sizeof(char *) * data->nb_of_philo);
-	if (!sems->sem_name)
-		return (NULL);
-	while (i < data->nb_of_philo)
+	data->lock = sem_open("/lock", O_CREAT, 0644, 1);
+	if (!data->lock)
 	{
-		sems->sem_name[i] = set_sem_name(i);
-		sems->forks[i] = sem_open(sems->sem_name[i], O_CREAT, 0644, sems->sem_val);
-		if (sems->forks[i] == SEM_FAILED)
-			exit (1);
-		i++;
+		printf("sem_open() error\n");
+		exit (1);
 	}
-	return (sems);
+	return (data->lock);
 }
 
 void	fill_data_b(t_data_b *data, char **av, int ac)
 {
-	int i;
-
-	i = 0;
-	data->nb_of_philo = ft_atoi(av[1]);
-	data->t_to_die = ft_atoi(av[2]);
-	data->t_to_eat = ft_atoi(av[3]);
-	data->t_to_sleep = ft_atoi(av[4]);
+	data->nb_of_philo = ft_atoi_b(av[1]);
+	data->t_to_die = ft_atoi_b(av[2]);
+	data->t_to_eat = ft_atoi_b(av[3]);
+	data->t_to_sleep = ft_atoi_b(av[4]);
+	data->forks = init_sem_fork(data);
+	data->lock = init_sem_lock(data);
 	if (ac == 6)
 	{
-		data->nb_of_meals = ft_atoi(av[5]);
+		data->nb_of_meals = ft_atoi_b(av[5]);
 		if (data->nb_of_meals <= 0)
 			return (free(data));
 	}
@@ -76,7 +70,7 @@ t_data_b	*init_data_b(char **av, int ac)
 	data = malloc(sizeof(t_data_b));
 	if (!data)
 		return (NULL);
-	if (!is_digit(av))
+	if (!is_digit_b(av))
 		fill_data_b(data, av, ac);
 	else
 		return (free(data), NULL);

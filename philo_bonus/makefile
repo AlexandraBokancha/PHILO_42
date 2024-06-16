@@ -1,24 +1,28 @@
-NAME			= philo	
+NAME			= philo_bonus
 
-SRC				= main.c init.c utils.c routine.c checker.c end_clean.c print.c	\
-				utils2.c
+SRC				=  philo_b.c \
+					init_data_b.c \
+					end_clean_b.c \
+					routine_b.c \
+					utils_b.c \
+					monitor_b.c \
 
 OBJS			= ${SRC:.c=.o}
 
 CC				=	cc
 
-HEAD 			= -Iphilo.h
+HEAD 			= -Iphilo_b.h
 
-CFLAGS			= -Wall -Wextra -Werror -pthread -fsanitize=address -g3
+CFLAGS			= -Wall -Wextra -Werror -g3
 
 all				:	${NAME}
 
-%.o: %.c philo.h
+%.o: %.c philo_b.h
 	@${CC} ${CFLAGS} ${HEAD} -c $< -o $@
 
 $(NAME)			:	${OBJS}	
 	@${CC} ${CFLAGS} ${OBJS} -o ${NAME} 
-	@echo "\nPHILO AT THE TABLE\n"
+	@echo "\nBONUS_PHILO AT THE TABLE\n"
 
 ##val :	 ${NAME}
 ##		valgrind \

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   philo_b.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:56:52 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/16 13:26:30 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/17 17:23:33 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-# include "/Users/bokanchik/Desktop/ecole42/philo/philo.h"
+# include "/home/albokanc/42/vogsphere/RANK03/philo_v1/philo.h"
 # include <stdlib.h> // malloc, free
 # include <string.h> // memset
 # include <stdio.h> // printf
@@ -38,10 +38,10 @@ typedef struct s_data_b
 	long int 		t_start;
 	long int        t_meal;
 	pid_t           *pid;
-	sem_t			*forks;
+	char 			**name_tab;
+	sem_t			**forks;
 	sem_t           *lock;
 	int             status;
-	int             died;
 	int				meal_count;
 }                   t_data_b;
 
@@ -53,6 +53,7 @@ void		parent_monitor(t_data_b *data);
 
 int			is_digit_b(char **str);
 int			ft_atoi_b(const char *nptr);
+char		*ft_itoa(int n);
 
 void		start_b(t_data_b *data);
 long int	get_time_b(t_data_b *data);

@@ -14,10 +14,9 @@
 
 void	close_sems(t_data_b *data)
 {
-	sem_close(data->forks);
-	sem_unlink("/fork_sem");
-	sem_close(data->lock);
-	sem_unlink("/lock_sem");
+	(void)data;
+	sem_unlink("/fork");
+	sem_unlink("/lock");
 	//free(data->sems);
 }
 

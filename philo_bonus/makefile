@@ -6,6 +6,7 @@ SRC				=  philo_b.c \
 					routine_b.c \
 					utils_b.c \
 					monitor_b.c \
+					ft_itoa.c \
 
 OBJS			= ${SRC:.c=.o}
 
@@ -13,7 +14,7 @@ CC				=	cc
 
 HEAD 			= -Iphilo_b.h
 
-CFLAGS			= -Wall -Wextra -Werror -g3
+CFLAGS			= -Wall -Wextra -Werror -pthread -g3
 
 all				:	${NAME}
 

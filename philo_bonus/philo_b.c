@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_b.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:29:20 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/16 13:31:03 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/17 18:59:02 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int main(int ac, char **av)
 	data = init_data_b(av, ac);
 	if (!data)
 		return (printf("Invalid argument.\n"), 1);
-	create_children(data);
-	parent_monitor(data);
-	close_sems(data);
+	if (!create_children(data))
+		parent_monitor(data);
+	//close_sems(data);
 	free_data_b(data);
 	return (0);
 }

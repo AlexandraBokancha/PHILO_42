@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 12:08:09 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/16 13:29:48 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/17 18:37:05 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void parent_monitor(t_data_b *data)
     int i;
     
     i = 0;
-    pid = waitpid(-1, &data->status, 0);
+	pid = waitpid(-1, &data->status, 0);
     if (pid > 0)
     {
         while (i < data->nb_of_philo)

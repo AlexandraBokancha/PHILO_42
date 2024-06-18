@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 20:57:03 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/18 16:21:30 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/18 20:30:15 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,69 +14,62 @@
 
 // DES SEMAPHORES POUR LE PRINT 
 
-int check_last_meal(t_data_b *data, sem_t *sem_lock)
+int check_last_meal(t_data_b *data)
 {
     long int    t;
 
-    sem_wait(sem_lock);
+    sem_wait(data->lock);
     t = get_time_b(data) - data->t_meal;
-    sem_post(sem_lock);
+    sem_post(data->lock);
     if (t >= data->t_to_die)
         return (1);
-    sem_post(sem_lock);
     return (0);
 }
+
 void think_b(t_data_b *data, int i)
 {
-    printf("\033[0;33m%ld %i is thinking\033[0m\n", get_time_b(data), i);
-    usleep(((data->t_to_eat - data->t_to_sleep) * 1000) + 1000);
+    sem_wait(data->lock);
+    printf("\033[0;33m%ld %i is thinking\033[0m\n", get_time_b(data), i + 1);
+    sem_post(data->lock);
 }
 
 void sleep_b(t_data_b *data, int i)
 {
-    printf("\033[0;32m%ld %i is sleeping\033[0m\n", get_time_b(data), i);
+    sem_wait(data->lock);
+    printf("\033[0;32m%ld %i is sleeping\033[0m\n", get_time_b(data), i + 1);
+    sem_post(data->lock);
     ft_usleep_b(data, data->t_to_sleep);
 }
 
-void    eat_b(t_data_b *data, int i, sem_t *sem_lock)
+void    eat_b(t_data_b *data, int i)
 {	
-	sem_wait(data->forks[i]);
-	printf("%ld %i has taken a first fork\n", get_time_b(data), i);
-	sem_wait(data->forks[(i + 1) % data->nb_of_philo]);
-    printf("\033[0;34m%ld %i is eating\033[0m\n", get_time_b(data), i);
-    sem_wait(sem_lock);
+	sem_wait(data->forks);
+	printf("%ld %i has taken a fork\n", get_time_b(data), i + 1);
+	sem_wait(data->forks);
+    printf("\033[0;34m%ld %i is eating\033[0m\n", get_time_b(data), i + 1);
+    sem_wait(data->lock);
     data->t_meal = get_time_b(data);
     data->meal_count += 1;
-   	sem_post(sem_lock);
+   	sem_post(data->lock);
     ft_usleep_b(data, data->t_to_eat); 
-	sem_post(data->forks[i]);
-	sem_post(data->forks[(i + 1) % data->nb_of_philo]); 
-
+	sem_post(data->forks);
+	sem_post(data->forks);
 }
 
 
 void    philo_routine(int i, t_data_b *data)
 {
-    sem_t *sem_lock;
-
-    data->meal_count = 0;
-    data->t_meal = 0;
-    sem_lock = sem_open("/lock", 0);
-    if (sem_lock == SEM_FAILED)
-    {
-        printf("sem_open() error\n");
-		exit (1);
-    }
     while (1)
     {
         if (data->nb_of_meals != -1 && data->meal_count >= data->nb_of_meals)
             break;
-        if (check_last_meal(data, sem_lock))
+        if (check_last_meal(data))
         {
-            printf("\033[0;31m%ld %i died\033[0m\n", get_time_b(data), i);
-			break;
+            sem_wait(data->lock);
+            printf("\033[0;31m%ld %i died\033[0m\n", get_time_b(data), i + 1);
+            exit (1);
         }
-        eat_b(data, i, sem_lock);
+        eat_b(data, i);
         sleep_b(data, i);
         think_b(data, i);
     }
@@ -87,6 +80,9 @@ int create_children(t_data_b *data)
     int i;
 	
     i = 0;
+    data->meal_count = 0;
+    data->t_meal = 0;
+    data->t_start = -1;
     data->pid = malloc(sizeof(pid_t) * (data->nb_of_philo));
     if (!data->pid)
     	return (1);

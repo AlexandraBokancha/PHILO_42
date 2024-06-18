@@ -6,7 +6,7 @@
 /*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:11:59 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/17 18:37:48 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:31:00 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 
 sem_t	**init_sem_fork(t_data_b *data)
 {
+	sem_t **sem_f;
 	int i;
 	int j;
-	sem_t **sem_f;
 
 	i = 0;
 	j = 1;
-	sem_f = malloc(sizeof(sem_t *) * (data->nb_of_philo + 1));
+	sem_f = malloc(sizeof(sem_t *) * (data->nb_of_philo));
+	if (!sem_f)
+		return (NULL);
 	data->name_tab = malloc(sizeof(char *) * (data->nb_of_philo + 1));
 	if (!data->name_tab)
 		return (NULL);
@@ -33,11 +35,11 @@ sem_t	**init_sem_fork(t_data_b *data)
 		data->name_tab[i] = malloc(sizeof(char) * 4);
 		if (!data->name_tab[i])
 			return (0);
-		data->name_tab[i] = ft_itoa(j++);
+		data->name_tab[i] = ft_strjoin("/fork_", ft_itoa(j++));
 		sem_f[i] = sem_open(data->name_tab[i], O_CREAT, 0644, 1);
 		if (sem_f[i] == SEM_FAILED)
 		{
-			printf("1 sem_open() error\n");
+			printf("sem_open() error\n");
 			exit (1);
 		}
 		i++;
@@ -60,12 +62,15 @@ sem_t *init_sem_lock(void)
 
 void	fill_data_b(t_data_b *data, char **av, int ac)
 {
+	int i;
 
 	data->nb_of_philo = ft_atoi_b(av[1]);
 	data->t_to_die = ft_atoi_b(av[2]);
 	data->t_to_eat = ft_atoi_b(av[3]);
 	data->t_to_sleep = ft_atoi_b(av[4]);
 	data->forks = init_sem_fork(data);
+	sem_getvalue(data->forks[0], &i);
+	printf("%i\n", i);
 	data->lock = init_sem_lock();
 	if (ac == 6)
 	{

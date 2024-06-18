@@ -1,41 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   end_clean_b.c                                      :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 17:22:46 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/18 16:09:25 by albokanc         ###   ########.fr       */
+/*   Created: 2024/06/18 16:06:05 by albokanc          #+#    #+#             */
+/*   Updated: 2024/06/18 16:06:31 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_b.h"
 
-void	close_sems(t_data_b *data)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (i < data->nb_of_philo)
-	{
-		sem_close(data->forks[i]);
+	while (str[i])
 		i++;
-	}
-	i = 0;
-	while (i < data->nb_of_philo)
-	{
-		sem_unlink(data->name_tab[i]);
-		i++;
-	}
-	sem_close(data->lock);
-	sem_unlink("/lock");
-	//free(data->sems);
+	return (i);
 }
 
-void	free_data_b(t_data_b *data)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	free(data->tv);
-	free(data);
-}
+	char	*news;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
+	if ((!s1) || (!s2))
+		return (NULL);
+	news = malloc(((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char)));
+	if (!news)
+		return (NULL);
+	while (s1[i])
+	{
+		news[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		news[i] = s2[j];
+		i++;
+		j++;
+	}
+	news[i] = '\0';
+	return (news);
+}

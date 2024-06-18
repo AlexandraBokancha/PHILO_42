@@ -6,7 +6,7 @@
 /*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:56:52 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/17 17:23:33 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:06:42 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		parent_monitor(t_data_b *data);
 int			is_digit_b(char **str);
 int			ft_atoi_b(const char *nptr);
 char		*ft_itoa(int n);
+char		*ft_strjoin(char *s1, char *s2);
 
 void		start_b(t_data_b *data);
 long int	get_time_b(t_data_b *data);

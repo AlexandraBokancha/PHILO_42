@@ -17,6 +17,7 @@ void think_b(t_data_b *data, int i)
     sem_wait(data->lock);
     printf("\033[0;33m%ld %i is thinking\033[0m\n", get_time_b(data), i + 1);
     sem_post(data->lock);
+    // peutetre enleve la condiiton se i%2
 	if (i % 2 && data->t_to_eat >= data->t_to_sleep)
 		usleep(((data->t_to_eat - data->t_to_sleep) * 1000) + 1000);
 }

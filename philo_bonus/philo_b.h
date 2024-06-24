@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   philo_b.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:56:52 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/18 20:25:55 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/24 19:46:35 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-# include "/Users/bokanchik/Desktop/ecole42/philo/philo.h"
+# include "../philo.h"
 # include <stdlib.h> // malloc, free
 # include <string.h> // memset
 # include <stdio.h> // printf
@@ -43,6 +43,7 @@ typedef struct s_data_b
 	sem_t           *lock;
 	int             status;
 	int				dead;
+	int				philo_id;
 	int				meal_count;
 }                   t_data_b;
 

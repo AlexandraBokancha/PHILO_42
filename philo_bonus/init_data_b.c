@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:11:59 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/18 18:59:21 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/24 19:39:09 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ void	fill_data_b(t_data_b *data, char **av, int ac)
 	data->t_to_sleep = ft_atoi_b(av[4]);
 	data->forks = init_sem_fork(data);
 	data->lock = init_sem_lock();
+	data->meal_count = 0;
+    data->t_meal = 0;
+    data->t_start = 0;
 	if (ac == 6)
 	{
 		data->nb_of_meals = ft_atoi_b(av[5]);

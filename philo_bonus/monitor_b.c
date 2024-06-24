@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 12:08:09 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/18 19:31:41 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/24 19:41:17 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void parent_monitor(t_data_b *data)
             i++;
         }
     }
-	close_sems(data);
     kill_remaining_children(data);
+	close_sems(data);
 }

@@ -9,7 +9,7 @@ CC				=	cc
 
 HEAD 			= -Iphilo.h
 
-CFLAGS			= -Wall -Wextra -Werror -pthread -fsanitize=address -g3
+CFLAGS			= -Wall -Wextra -Werror -pthread -g3 ##-fsanitize=address -g3
 
 all				:	${NAME}
 

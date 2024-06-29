@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 15:22:04 by albokanc          #+#    #+#             */
-/*   Updated: 2024/05/09 14:19:33 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/29 22:09:48 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_data
 	pthread_mutex_t	m_control;
 	pthread_mutex_t	m_time;
 	pthread_mutex_t	m_stop;
-	long int		t_start;
+	u_int64_t		t_start;
 	int				stop;
 	int				nb_of_philo;
 	int				nb_of_times_to_eat;
@@ -92,7 +92,7 @@ void		death_checker(t_philo *philo);
 
 // helpful functions
 
-int			ft_usleep(t_data *data, size_t time);
+int			ft_usleep(t_data *data, useconds_t time);
 void		start(t_data *data);
 long int	get_time(t_data *data);
 

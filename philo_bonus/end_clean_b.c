@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end_clean_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:22:46 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/18 18:59:37 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/28 17:54:10 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	close_sems(t_data_b *data)
 
 void	free_data_b(t_data_b *data)
 {
-	free(data->tv);
-	free(data);
+	if (data->pid)
+		free(data->pid);
+	if (data->tv)
+		free(data->tv);
+	if (data)
+		free(data);
 }
-

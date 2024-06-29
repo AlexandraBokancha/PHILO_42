@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_b.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:18:13 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/18 20:22:35 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/06/28 17:55:23 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi_b(const char *nptr)
 	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == ' ')
 		i++;
 	if ((nptr[i] == '-') || nptr[i] == '+')
-	{	
+	{
 		if (nptr[i] == '-')
 			sign *= -1;
 		i++;

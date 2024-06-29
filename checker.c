@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:49:47 by albokanc          #+#    #+#             */
-/*   Updated: 2024/05/09 14:41:49 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/29 22:05:40 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 int	dead(t_philo *philo)
 {
-	long int	t;
+	u_int64_t	t;
 
 	pthread_mutex_lock(&philo->data->m_meal);
 	t = get_time(philo->data) - philo->t_meal;
-	if (t >= philo->data->time_to_die)
-	{
-		pthread_mutex_unlock(&philo->data->m_meal);
-		return (0);
-	}
 	pthread_mutex_unlock(&philo->data->m_meal);
+	if (t >= philo->data->time_to_die)
+		//pthread_mutex_unlock(&philo->data->m_meal);
+		return (0);
 	return (1);
 }
 

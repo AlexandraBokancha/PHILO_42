@@ -6,8 +6,6 @@ SRC				=  philo_b.c \
 					routine_b.c \
 					utils_b.c \
 					monitor_b.c \
-					ft_itoa.c \
-					ft_strjoin.c \
 					
 OBJS			= ${SRC:.c=.o}
 

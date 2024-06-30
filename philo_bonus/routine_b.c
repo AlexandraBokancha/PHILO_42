@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 20:57:03 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/28 17:51:48 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/30 21:17:23 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	eat_b(t_data_b *data, int i)
 	sem_post(data->lock);
 	sem_wait(data->lock);
 	printf("\033[0;34m%ld %i is eating\033[0m\n", get_time_b(data), i + 1);
+	sem_post(data->lock);
+	sem_wait(data->lock);
 	data->t_meal = get_time_b(data);
 	data->meal_count += 1;
 	sem_post(data->lock);
@@ -56,19 +58,9 @@ void	philo_routine(int i, t_data_b *data)
 	data->philo_id = i;
 	if (i % 2)
 		ft_usleep_b(data, data->t_to_eat);
-	if (pthread_create(&pid, NULL, is_dead, data))
-	{
-		printf("Thread error\n");
-		exit(1);
-	}
+	pthread_create(&pid, NULL, is_dead, data);
 	while (1)
 	{
-		if (data->nb_of_meals != -1 && data->meal_count >= data->nb_of_meals)
-		{
-			close_sems(data);
-			free_data_b(data);
-			exit(3);
-		}
 		eat_b(data, i);
 		sleep_b(data, i);
 		think_b(data, i);
@@ -80,7 +72,6 @@ int	create_children(t_data_b *data)
 	int	i;
 
 	i = 0;
-	data->dead = 0;
 	data->pid = malloc(sizeof(pid_t) * (data->nb_of_philo));
 	if (!data->pid)
 		return (exit(1), printf("Malloc error\n"));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_b.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:18:13 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/28 17:55:23 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:55:30 by bokanchik        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int	ft_usleep_b(t_data_b *data, size_t time)
 
 	start = get_time_b(data);
 	while ((get_time_b(data) - start) < time)
-		usleep(time * 100);
+		usleep(time / 10);
 	return (0);
 }

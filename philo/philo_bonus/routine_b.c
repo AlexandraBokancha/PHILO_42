@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_b.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 20:57:03 by bokanchik         #+#    #+#             */
-/*   Updated: 2024/06/30 21:17:23 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/07/01 12:02:00 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	eat_b(t_data_b *data, int i)
 	sem_post(data->lock);
 	sem_wait(data->lock);
 	data->t_meal = get_time_b(data);
+	sem_post(data->lock);
+	sem_wait(data->lock);
 	data->meal_count += 1;
 	sem_post(data->lock);
 	ft_usleep_b(data, data->t_to_eat);

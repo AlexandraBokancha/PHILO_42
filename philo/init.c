@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:01:07 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/29 16:56:40 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/07/19 15:28:25 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ t_data	*init_data(char **av, int ac)
 		return (free(data), NULL);
 	data->tv = malloc(sizeof(struct timeval));
 	if (!data->tv)
+	{
+		free(data);
 		return (NULL);
+	}
 	return (data);
 }
 
@@ -45,6 +48,7 @@ int	init_threads(t_philo *philo, t_data *data)
 	{
 		if (pthread_create(&philo[i].tid, NULL, thread_routine, &philo[i]))
 		{
+			pthread_mutex_unlock(&philo->data->m_stop);
 			printf("Error while creating thread.\n");
 			return (1);
 		}
@@ -71,9 +75,9 @@ int	init_controls(t_data *data)
 		return (1);
 	if (pthread_mutex_init(&data->m_time, NULL))
 		return (1);
-	if (pthread_mutex_init(&data->m_control, NULL))
-		return (1);
 	if (pthread_mutex_init(&data->m_stop, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->m_control, NULL))
 		return (1);
 	return (0);
 }
@@ -94,7 +98,8 @@ t_philo	*init_locks(t_data *data)
 		init_flags(&philo[i], i);
 		if (i != 0)
 			philo[i].l_fork = &philo[i - 1].r_fork;
-		pthread_mutex_init(&philo[i].r_fork, NULL);
+		if (pthread_mutex_init(&philo[i].r_fork, NULL))
+			return (NULL);
 		philo[i].data = data;
 		i++;
 	}

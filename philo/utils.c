@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:38:35 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/29 22:07:52 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/07/19 15:12:42 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,19 @@ long int	get_time(t_data *data)
 {
 	long int	ms;
 
-	//pthread_mutex_lock(&data->m_time);
 	gettimeofday(data->tv, NULL);
+	pthread_mutex_lock(&data->m_time);
 	ms = (data->tv->tv_sec * 1000 + data->tv->tv_usec / 1000) - data->t_start;
-	//pthread_mutex_unlock(&data->m_time);
+	pthread_mutex_unlock(&data->m_time);
 	return (ms);
 }
 
-int	ft_usleep(t_data *data, useconds_t time)
+int	ft_usleep(t_data *data, int time)
 {
-	u_int64_t	start;
+	long int	start;
 
 	start = get_time(data);
 	while ((get_time(data) - start) < time)
-		usleep(time / 10);
+		usleep(time * 100);
 	return (0);
 }

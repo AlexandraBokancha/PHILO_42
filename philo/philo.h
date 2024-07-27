@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bokanchik <bokanchik@student.42.fr>        +#+  +:+       +#+        */
+/*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 15:22:04 by albokanc          #+#    #+#             */
-/*   Updated: 2024/06/29 22:09:48 by bokanchik        ###   ########.fr       */
+/*   Updated: 2024/07/19 15:11:53 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h> // write, usleep
 # include <sys/time.h> // gettimeofday
 # include <pthread.h> // thread's fuctions
+# include <time.h>
 
 // process data structure 
 
@@ -92,7 +93,7 @@ void		death_checker(t_philo *philo);
 
 // helpful functions
 
-int			ft_usleep(t_data *data, useconds_t time);
+int			ft_usleep(t_data *data, int time);
 void		start(t_data *data);
 long int	get_time(t_data *data);
 

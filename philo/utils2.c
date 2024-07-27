@@ -6,7 +6,7 @@
 /*   By: albokanc <albokanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:55 by albokanc          #+#    #+#             */
-/*   Updated: 2024/05/09 14:42:11 by albokanc         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:06:43 by albokanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ int	death_status(t_philo *philo, int i, int run)
 {
 	set_dead(philo);
 	print_dead(&philo[i]);
-	pthread_mutex_lock(&philo->data->m_stop);
 	run = 0;
-	pthread_mutex_unlock(&philo->data->m_stop);
 	return (run);
 }
 
